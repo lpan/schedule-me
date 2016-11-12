@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 
-const Root = ({children}) => (
+const Root = ({ children }) => (
   <div>
     <Header />
     {children}
