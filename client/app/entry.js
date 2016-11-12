@@ -2,6 +2,7 @@ import React from 'react';
 import ReactOnRails from 'react-on-rails';
 import { Provider } from 'react-redux';
 import { browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { orange500, grey800 } from 'material-ui/styles/colors';
@@ -21,26 +22,15 @@ const muiTheme = getMuiTheme({
   },
 });
 
-// See documentation for https://github.com/reactjs/react-redux.
-// This is how you get props from the Rails view into the redux store.
-// This code here binds your smart component to the redux store.
-// railsContext provides contextual information especially useful for server rendering, such as
-// knowing the locale. See the React on Rails documentation for more info on the railsContext
-const App = (props, _railsContext) => {
-  return (
-    <MuiThemeProvider muiTheme={muiTheme}>
-      <Routes history={browserHistory} />
-    </MuiThemeProvider>
-  );
-};
+const store = createStore();
+const history = syncHistoryWithStore(browserHistory, store)
 
-/*
-const store = createStore(props);
-return (
-  <Provider store={store}>
-    <Routes history={browserHistory} />
-  </Provider>
+const App = (props, _railsContext) => (
+  <MuiThemeProvider muiTheme={muiTheme}>
+    <Provider store={store}>
+      <Routes history={history} />
+    </Provider>
+  </MuiThemeProvider>
 );
-*/
 
 ReactOnRails.register({ App });
