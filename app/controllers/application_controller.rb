@@ -3,9 +3,11 @@ class ApplicationController < ActionController::Base
 
   include AuthHelper
 
-  def home
-    # Display the login link.
-    login_url = get_login_url
-    render html: "<a href='#{login_url}'>Log in and view my email</a>".html_safe
+  def index
+  end
+
+  def login
+    login_url = {:payload => get_login_url}
+    render json: login_url
   end
 end

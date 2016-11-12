@@ -3,7 +3,6 @@ class CalendarController < ApplicationController
   include AuthHelper
 
   def index
-=begin
     token = get_access_token
     email = session[:user_email]
     if token
@@ -31,6 +30,5 @@ class CalendarController < ApplicationController
       # can sign in.
       redirect_to root_url
     end
-=end
   end
 end
