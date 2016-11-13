@@ -1,8 +1,16 @@
 import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+
+const style = {
+  marginTop: '100px',
+  margin: '200px',
+
+};
 
 const Home = () => (
   <div>
-    <p>Home</p>
+    <p style={{}}>Welcome to ScheduleMe</p>
+    <RaisedButton label="Sign Up" primary style={style} />
   </div>
 );
 
