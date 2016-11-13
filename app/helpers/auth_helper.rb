@@ -57,7 +57,7 @@ module AuthHelper
                                :scope => SCOPES.join(' '))
   end
 
-  def get_user_email(access_token)
+  def get_user_info(access_token)
     conn = Faraday.new(:url => 'https://outlook.office.com') do |faraday|
       # Outputs to the console
       faraday.response :logger
@@ -72,6 +72,18 @@ module AuthHelper
       request.headers['Accept'] = 'application/json'
     end
 
-    JSON.parse(response.body)['EmailAddress']
+    JSON.parse(response.body)
+  end
+
+  def get_user_email(body)
+    body['EmailAddress']
+  end
+
+  def get_user_name(body)
+    body['name']
+  end
+
+  def is_dup(invalid_user)
+    invalid_user.errors.details[:email].any? {|i| i[:error] == :taken}
   end
 end

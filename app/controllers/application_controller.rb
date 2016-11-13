@@ -3,11 +3,7 @@ class ApplicationController < ActionController::Base
 
   include AuthHelper
 
-  def index
-  end
-
   def login
-    login_url = {:payload => get_login_url}
-    render json: login_url
+    render json: get_login_url
   end
 end
