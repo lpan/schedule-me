@@ -13,7 +13,7 @@ class AuthController < ApplicationController
 
     user = User.create :email => email, :name => name
 
-    if user.valid? or user.start.nil? or user.end.nil?
+    if user.start.nil? or user.end.nil?
       redirect_to "/init", :notice => "Log in success"
     elsif is_dup user
       redirect_to "/users/#{user.id}", :notice => "Log in success"

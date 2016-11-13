@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  get '*path' => 'calendar#index'
-  get 'user/patch'
-
+  get 'update' => 'user#patch'
   root 'calendar#index'
   get 'login' => 'application#login'
   get 'authorize' => 'auth#authorize'
+  get '*path' => 'calendar#index'
 end

@@ -2,6 +2,7 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import TimePicker from 'material-ui/TimePicker';
+import axios from 'axios';
 
 class DayStartEnd extends React.Component {
   constructor(props) {
@@ -12,32 +13,55 @@ class DayStartEnd extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.isReady = this.isReady.bind(this);
   }
 
   handleChange(prop) {
-    return (e) => {
-      e.preventDefault();
-      console.warn(e.value);
-      this.setState({ [prop]: e.target.value });
+    return (e, date) => {
+      this.setState({ [prop]: date });
     };
   }
 
+  isReady() {
+    const { start, end } = this.state;
+    return start && end;
+  }
+
   handleSubmit() {
-    console.warn(this);
+    const { start, end } = this.state;
+    axios.get('/update', {
+      params: {
+        start: start.toLocaleTimeString(),
+        end: end.toLocaleTimeString(),
+      }
+    })
+      .then(() => { console.warn('yayyy'); })
+      .catch(e => { console.warn(e); });
   }
 
   render() {
     const { start, end } = this.state;
 
     return (
-      <div style={ { position: 'absolute', top: '35%', left:'40%'} }>
-        <p style={{ fontFamily: 'Helvetica Neue', color: "#333333" }}> Enter your wakeup time: </p>
-        <TimePicker hintText="12hr Format" value={start} onChange={this.handleChange('start')} /> <br />
-        <p style={{ fontFamily: 'Helvetica Neue', color: "#333333"}}> Enter your bed time: </p>
-        <TimePicker hintText="12hr Format" value={end} onChange={this.handleChange('end')} /> <br />
-        <br />
-        <br />
-        <RaisedButton onClick={this.handleSubmit} label="Submit" primary={true} style={{ position: 'relative', left: '30%' }}/>
+      <div style={{ position: 'absolute', top: '35%', left:'40%'}}>
+        <p>When does your day start?</p>
+        <TimePicker
+          value={start}
+          onChange={this.handleChange('start')}
+        />
+        <p>When does your day end?</p>
+        <TimePicker
+          value={end}
+          onChange={this.handleChange('end')}
+        />
+        <RaisedButton
+          onClick={this.handleSubmit}
+          label="Submit"
+          primary
+          disabled={!this.isReady()}
+          style={{ position: 'relative', left: '30%' }}
+        />
       </div>
     );
   }

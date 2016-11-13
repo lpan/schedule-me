@@ -4,6 +4,6 @@ class ApplicationController < ActionController::Base
   include AuthHelper
 
   def login
-    render json: get_login_url
+    redirect_to get_login_url
   end
 end
